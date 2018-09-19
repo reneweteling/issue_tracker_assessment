@@ -33,7 +33,8 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.mock_with :rspec
   config.color = true
-  config.order = 'random'
+  config.formatter = :documentation
+  # config.order = 'random'
 
   # Ensure Suite is set to use transactions for speed.
   config.before :suite do

@@ -15,14 +15,14 @@ Also please ask questions if something is not clear. Any questions are welcome. 
 **The application should implement only REST API**
 
 As a regular user you should:
-- [ ] be able to log into the system
-- [ ] be able to create/update/delete **only your** issues
-- [ ] see the list of **only your** issues (most recent at the top)
-- [ ] **not** be able to update the status of your issues
-- [ ] **not** be able to update the assignend manager of your issues
+- [x] be able to log into the system
+- [x] be able to create/update/delete **only your** issues
+- [x] see the list of **only your** issues (most recent at the top)
+- [x] **not** be able to update the status of your issues
+- [x] **not** be able to update the assignend manager of your issues
 
 As a manager you should:
-- [ ] be able to log into the system
+- [x] be able to log into the system
 - [ ] be able to see the list of **all** issues
 - [ ] be able to assign an issue to only **yourself** and only if it is **not already assigned** to somebody else
 - [ ] be able to unassign an issue from **yourself**
@@ -31,7 +31,7 @@ As a manager you should:
 - [ ] **not** be able to change the status of an issue **unless** it is assigned to you
 
 ### Notes
-- [ ] issue statuses: “pending”, “in progress”, “resolved”. Default: “pending”
+- [x] issue statuses: “pending”, “in progress”, “resolved”. Default: “pending”
 - [ ] if the issue has “in progress”, or “resolved” status the assignee is required. It can’t be unassigned in these two statuses
 - [ ] users and managers should be able to filter by “status”
 - [ ] pagination should be implemented, 25 issues in the response.
