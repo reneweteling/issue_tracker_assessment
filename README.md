@@ -42,7 +42,7 @@ As a manager you should:
 It took me about 3,5 to 4 hours to get this project done. Its a fun example app. Not to difficult and it has allot of disiplines.
 I would like to point out that i took some gems to speed up the process. For a production environment, sqlite, jbuiler would never be used
 postgres, redis, elasticsearch for the data retreival and fast_jsonapi for the json conversion. Depending on the acl roles maybe something other than
-cancancan and if we would add an user interface to this api knock would probably traded in for devise. But hey... its an assignment.
+cancancan and if we would add an user interface to this api knock would probably traded in for devise.
 
 I hope its to your liking!
 
