@@ -48,14 +48,14 @@ I hope its to your liking!
 
 All the best,
 
-![René Weteling](http://www.weteling.com/zzz/footer.png)
+![René Weteling](https://www.weteling.com/zzz/footer.png)
 
 I love open source software!
 See [my other projects][blog]
 or [hire me][hire] to help build your product.
 
-  [blog]: http://www.weteling.com/
-  [hire]: http://www.weteling.com/contact/
+  [blog]: https://www.weteling.com/
+  [hire]: https://www.weteling.com/#contact
 
 
 ## Running locally
