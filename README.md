@@ -36,11 +36,29 @@ As a manager you should:
 - [x] users and managers should be able to filter by “status”
 - [x] pagination should be implemented, 25 issues in the response.
 - [x] if you use JSON, please make sure the error responses for 500, 400, 422, etc, are also in JSON format
-- [x] please describe how to login into your application and how to authorize API calls 
+- [x] please describe how to login into your application and how to authorize API calls
+
+# Assignment notes
+It took me about 3,5 to 4 hours to get this project done. Its a fun example app. Not to difficult and it has allot of disiplines.
+I would like to point out that i took some gems to speed up the process. For a production environment, sqlite, jbuiler would never be used
+postgres, redis, elasticsearch for the data retreival and fast_jsonapi for the json conversion. Depending on the acl roles maybe something other than
+cancancan and if we would add an user interface to this api knock would probably traded in for devise. But hey... its an assignment.
+
+I hope its to your liking!
+
+All the best,
+
+![René Weteling](http://www.weteling.com/zzz/footer.png)
+
+I love open source software!
+See [my other projects][blog]
+or [hire me][hire] to help build your product.
+
+  [blog]: http://www.weteling.com/
+  [hire]: http://www.weteling.com/contact/
+
 
 ## Running locally
-
-`bin/setup` should contain all required steps to run the application locally. Example:
 
 Make sure you have ruby 2.5.1 installed, if not you could do so by:
 ```
