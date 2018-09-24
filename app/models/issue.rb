@@ -7,4 +7,8 @@ class Issue < ApplicationRecord
   enum status: {
     pending: 'pending', in_progress: 'in_progress', resolved: 'resolved'
   }
+
+  validates :assignee, presence: true, if: proc { |i|
+    i.resolved? || i.in_progress?
+  }
 end

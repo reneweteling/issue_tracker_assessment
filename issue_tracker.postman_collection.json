@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "359dad89-4fb1-4d4f-85b7-b53f91e9e24a",
+		"name": "issue_tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "CONTENT_TYPE",
+						"value": "application/json",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"auth\":{\n\t\t\"email\": \"jim@dm.com\",\n\t\t\"password\": \"test123\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/user_token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"user_token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list issues",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/issues",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"issues"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzc4NjQyMTgsInN1YiI6M30.TC-MM9PQbdsgbuURnbRnrYBf8T2WCQCv-31O7EkfOIk",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f57fc3d8-b7ff-42c6-a6a4-b208703df70d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ff92777c-9561-4a50-91d1-b715aca5fbdb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -6,7 +6,9 @@ module Api
       before_action :set_issue, only: %i[update destroy]
 
       def index
-        @issues = issues.order(:created_at).page(page_no)
+        @issues = issues.order(created_at: :desc)
+                        .page(page_no)
+                        .where(status: status_filters)
       end
 
       def create
@@ -23,6 +25,10 @@ module Api
 
       private
 
+      def status_filters
+        params[:status]&.split(',') || Issue.statuses.keys
+      end
+
       def set_issue
         @issue = issues.find(params[:id])
       end
@@ -32,12 +38,30 @@ module Api
       end
 
       def params_for_issue
-        attributes = %i[name description]
-        attributes << :manager_id if can? :assign_manager, Issue
-        attributes << :assignee_id if can? :assign_assignee, Issue
-        attributes << :status if can? :update_status, Issue
+        attributes = params.require(:issue)
+                           .permit %i[
+                             name description manager_id
+                             assignee_id status
+                           ]
 
-        params.require(:issue).permit(attributes)
+        %i[manager_id assignee_id status].each do |field|
+          next unless attributes[field].present? && (
+              cannot?("update_#{field}".to_sym, @issue) ||
+              (
+                can?("update_#{field}".to_sym, @issue) &&
+                field == :manager_id &&
+                (
+                  @issue.manager.present? &&
+                  @issue.manager_id != attributes[:manager_id]
+                ) || (
+                  @issue.manager.nil? &&
+                  attributes[:manager_id] != current_user.id
+                )
+              )
+            )
+          raise CanCan::AccessDenied, "You are not authorised to update #{field}"
+        end
+        attributes
       end
 
       def page_no

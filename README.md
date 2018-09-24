@@ -23,27 +23,68 @@ As a regular user you should:
 
 As a manager you should:
 - [x] be able to log into the system
-- [ ] be able to see the list of **all** issues
-- [ ] be able to assign an issue to only **yourself** and only if it is **not already assigned** to somebody else
-- [ ] be able to unassign an issue from **yourself**
-- [ ] be able to change the status of the issue **only** if the issue is assigned to you
-- [ ] **not** be able to assign an issue to somebody else
-- [ ] **not** be able to change the status of an issue **unless** it is assigned to you
+- [x] be able to see the list of **all** issues
+- [x] be able to assign an issue to only **yourself** and only if it is **not already assigned** to somebody else
+- [x] be able to unassign an issue from **yourself**
+- [x] be able to change the status of the issue **only** if the issue is assigned to you
+- [x] **not** be able to assign an issue to somebody else
+- [x] **not** be able to change the status of an issue **unless** it is assigned to you
 
 ### Notes
 - [x] issue statuses: “pending”, “in progress”, “resolved”. Default: “pending”
-- [ ] if the issue has “in progress”, or “resolved” status the assignee is required. It can’t be unassigned in these two statuses
-- [ ] users and managers should be able to filter by “status”
-- [ ] pagination should be implemented, 25 issues in the response.
-- [ ] if you use JSON, please make sure the error responses for 500, 400, 422, etc, are also in JSON format
-- [ ] please describe how to login into your application and how to authorize API calls 
+- [x] if the issue has “in progress”, or “resolved” status the assignee is required. It can’t be unassigned in these two statuses
+- [x] users and managers should be able to filter by “status”
+- [x] pagination should be implemented, 25 issues in the response.
+- [x] if you use JSON, please make sure the error responses for 500, 400, 422, etc, are also in JSON format
+- [x] please describe how to login into your application and how to authorize API calls 
 
 ## Running locally
 
-`bin/setup` shoud contain all required steps to run the application locally. Example:
+`bin/setup` should contain all required steps to run the application locally. Example:
 
+Make sure you have ruby 2.5.1 installed, if not you could do so by:
 ```
-git clone git@github.com:organization/app.git
-cd app
+rbenv install 2.5.1
+```
+Then:
+```
+git clone git@github.com:reneweteling/issue_tracker_assessment.git
+cd issue_tracker_assessment
 ./bin/setup
 ```
+
+### Logging in to the system & authenticating calls
+See db/seeds.rb
+To authenticate all calls, a bearer token needs to be present. To receive the token execute the call below to login:
+```
+curl -X POST \
+  http://localhost:3000/api/v1/user_token \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"auth":{
+		"email": "dwight@dm.com",
+		"password": "test123"
+	}
+}'
+```
+
+This wil return a JWT token, use this token as Bearer token described below:
+```
+curl -X GET \
+  http://localhost:3000/api/v1/issues \
+  -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzc4NjM2MjMsInN1YiI6Mn0.pvztEtbGOFttDUJwYUMDlF4BMij5M5Skrkkjdy2oqNY'
+```
+
+### available routes:
+```
+                   Prefix Verb   URI Pattern                                                                              Controller#Action
+            api_v1_issues GET    /api/v1/issues(.:format)                                                                 api/v1/issues#index {:format=>:json}
+                          POST   /api/v1/issues(.:format)                                                                 api/v1/issues#create {:format=>:json}
+             api_v1_issue GET    /api/v1/issues/:id(.:format)                                                             api/v1/issues#show {:format=>:json}
+                          PATCH  /api/v1/issues/:id(.:format)                                                             api/v1/issues#update {:format=>:json}
+                          PUT    /api/v1/issues/:id(.:format)                                                             api/v1/issues#update {:format=>:json}
+                          DELETE /api/v1/issues/:id(.:format)                                                             api/v1/issues#destroy {:format=>:json}
+        api_v1_user_token POST   /api/v1/user_token(.:format)                                                             api/v1/user_token#create {:format=>:json}
+```
+The api_v1_issues index page also accepts the querystring `page` for pagination and `status` (CSV) for the status filter.
+For a detailed working of the app, please read through the specs.

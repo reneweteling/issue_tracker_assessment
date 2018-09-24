@@ -16,17 +16,18 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 # Simplecov
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+formatters = [
   SimpleCov::Formatter::HTMLFormatter,
   SimpleCov::Formatter::Console,
 ]
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new formatters
 SimpleCov.start 'rails'
 
 # run rubocop
-# rubocop_output = `bundle exec rubocop --color`
-# puts rubocop_output
-# rubocop_failed = rubocop_output.include? '[32mno offenses[0m detected'
-# fail "RuboCop Errors" unless rubocop_failed
+rubocop_output = `bundle exec rubocop --color`
+puts rubocop_output
+rubocop_failed = rubocop_output.include? '[32mno offenses[0m detected'
+fail "RuboCop Errors" unless rubocop_failed
 
 RSpec.configure do |config|
   # Config
@@ -34,6 +35,7 @@ RSpec.configure do |config|
   config.mock_with :rspec
   config.color = true
   config.formatter = :documentation
+  config.shared_context_metadata_behavior = :apply_to_host_groups
   # config.order = 'random'
 
   # Ensure Suite is set to use transactions for speed.
@@ -53,5 +55,34 @@ RSpec.configure do |config|
   # After each spec clean the database.
   config.after :each do
     DatabaseCleaner.clean
+  end
+end
+
+RSpec.shared_context 'issues' do
+  let(:user){ create :user }
+  let(:user_headers){ { Authorization: "Bearer #{login(user)}" } }
+  let(:user_issue){ create :issue, assignee: user }
+
+  let(:manager){ create :user, role: :manager }
+  let(:manager_headers){ { Authorization: "Bearer #{login(manager)}" } }
+  let(:manager_issue){ create :issue, manager: manager, assignee: manager }
+
+  let(:manager2){ create :user, role: :manager }
+  let(:manager2_headers){ { Authorization: "Bearer #{login(manager2)}" } }
+  let(:manager2_issue){ create :issue, manager: manager2, assignee: manager2 }
+
+  let(:issue){ create :issue }
+
+  def login(user)
+    auth = {
+      auth: {
+        email: user.email,
+        password: 'test123'
+      }
+    }
+
+    post '/api/v1/user_token', params: auth, as: :json
+    expect(response.status).to eq(201)
+    JSON.parse(response.body)['jwt']
   end
 end

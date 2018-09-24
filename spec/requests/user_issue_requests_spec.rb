@@ -3,28 +3,7 @@
 require 'spec_helper'
 
 describe 'Issue management', type: :request do
-  let(:user){ create :user }
-  let(:user_headers){ { Authorization: "Bearer #{login(user)}" } }
-  let(:user_issue){ create :issue, assignee: user }
-
-  let(:manager){ create :user, role: :manager }
-  let(:manager_headers){ { Authorization: "Bearer #{login(manager)}" } }
-  let(:manager_issue){ create :issue, assignee: manager }
-
-  let(:issue){ create :issue }
-
-  def login(user)
-    auth = {
-      auth: {
-        email: user.email,
-        password: 'test123'
-      }
-    }
-
-    post '/api/v1/user_token', params: auth, as: :json
-    expect(response.status).to eq(201)
-    JSON.parse(response.body)['jwt']
-  end
+  include_context 'issues'
 
   it 'does nothing when not authorized' do
     get '/api/v1/issues'
@@ -35,11 +14,35 @@ describe 'Issue management', type: :request do
     it 'lists all my issues' do
       manager_issue.update(name: 'Manager issue')
       user_issue.update(name: 'My issue')
-      issue.update(name: 'Call dunder miflin home office')
       get '/api/v1/issues', headers: user_headers
       expect(response.status).to eq(200)
       expect(response.body).to include('My issue')
       expect(response.body).not_to include('Manager issue')
+    end
+
+    context 'Index page' do
+      before(:each) do
+        40.times do |i|
+          create :issue, assignee: user,
+                         created_at: Time.zone.now - i.minutes,
+                         status: Issue.statuses.keys.sample
+        end
+      end
+
+      it 'Lists my issues descending' do
+        get '/api/v1/issues', headers: user_headers
+        expect(response.status).to eq(200)
+        expect(
+          JSON.parse(response.body)['items'].first['created_at'].to_datetime.to_i
+        ).to eq(Issue.maximum(:created_at).to_i)
+      end
+
+      it 'Filters by status' do
+        get '/api/v1/issues?status=pending', headers: user_headers
+        JSON.parse(response.body)['items'].each do |item|
+          expect(item['status']).to eq('pending')
+        end
+      end
     end
 
     it 'creates an issue' do
@@ -79,8 +82,7 @@ describe 'Issue management', type: :request do
       put "/api/v1/issues/#{user_issue.id}", params: p,
                                              as: :json,
                                              headers: user_headers
-      expect(response.status).to eq(200)
-      expect(JSON.parse(response.body)['manager']).to eq(nil)
+      expect(response.status).to eq(422)
     end
 
     it 'Can\'t update the status' do
@@ -92,8 +94,7 @@ describe 'Issue management', type: :request do
                                              as: :json,
                                              headers: user_headers
 
-      expect(response.status).to eq(200)
-      expect(JSON.parse(response.body)['status']).to eq('pending')
+      expect(response.status).to eq(422)
     end
 
     it 'does not update issues not assigned to me' do
