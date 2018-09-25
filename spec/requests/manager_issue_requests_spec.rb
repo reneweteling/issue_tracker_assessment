@@ -25,7 +25,7 @@ describe 'Issue management', type: :request do
                                         headers: manager_headers
 
       expect(response.status).to eq(200)
-      expect(JSON.parse(response.body)['manager']['id']).to eq(manager.id)
+      expect(json['manager']['id']).to eq(manager.id)
     end
 
     it 'does not unassign an issue with an in_progres status' do
@@ -52,7 +52,7 @@ describe 'Issue management', type: :request do
                                                 headers: manager_headers
 
       expect(response.status).to eq(200)
-      expect(JSON.parse(response.body)['manager']).to eq(nil)
+      expect(json['manager']).to eq(nil)
     end
 
     it 'Can\'t unassign an issue that is assigned to an other' do
@@ -66,7 +66,7 @@ describe 'Issue management', type: :request do
                                                  headers: manager_headers
 
       expect(response.status).to eq(200)
-      expect(JSON.parse(response.body)['manager']).to eq(nil)
+      expect(json['manager']).to eq(nil)
     end
 
     it 'Can\'t assign an issue to someone else' do
@@ -119,7 +119,7 @@ describe 'Issue management', type: :request do
                                                 headers: manager_headers
 
       expect(response.status).to eq(200)
-      expect(JSON.parse(response.body)['status']).to eq('resolved')
+      expect(json['status']).to eq('resolved')
     end
   end
 end

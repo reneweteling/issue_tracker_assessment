@@ -73,6 +73,10 @@ RSpec.shared_context 'issues' do
 
   let(:issue){ create :issue }
 
+  def json
+    JSON.parse(response.body)
+  end
+
   def login(user)
     auth = {
       auth: {

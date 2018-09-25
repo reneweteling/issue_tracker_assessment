@@ -33,13 +33,13 @@ describe 'Issue management', type: :request do
         get '/api/v1/issues', headers: user_headers
         expect(response.status).to eq(200)
         expect(
-          JSON.parse(response.body)['items'].first['created_at'].to_datetime.to_i
+          json['items'].first['created_at'].to_datetime.to_i
         ).to eq(Issue.maximum(:created_at).to_i)
       end
 
       it 'Filters by status' do
         get '/api/v1/issues?status=pending', headers: user_headers
-        JSON.parse(response.body)['items'].each do |item|
+        json['items'].each do |item|
           expect(item['status']).to eq('pending')
         end
       end
