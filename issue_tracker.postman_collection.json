@@ -61,6 +61,97 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "create issue",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"issue\": {\n\t\t\"name\": \"Do something with Micheal\",\n\t\t\"description\": \"He is a bit lonely lets help him out\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/issues",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"issues"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update issue",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"issue\": {\n\t\t\"name\": \"Do something with Micheal\",\n\t\t\"description\": \"He is a bit lonely lets help him out\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/issues",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"issues"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete issue",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/issues/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"issues",
+						"4"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -68,7 +159,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzc4NjQyMTgsInN1YiI6M30.TC-MM9PQbdsgbuURnbRnrYBf8T2WCQCv-31O7EkfOIk",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1Mzc5NzU5MjcsInN1YiI6MX0.zrKx6ZtURsRyWLCNMI4sT04WlMqg3j83rayohQgMCRE",
 				"type": "string"
 			}
 		]

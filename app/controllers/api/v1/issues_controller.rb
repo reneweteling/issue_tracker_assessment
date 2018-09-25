@@ -12,7 +12,10 @@ module Api
       end
 
       def create
-        @issue = Issue.create!(params_for_issue)
+        create_param = params_for_issue
+        create_param[:assignee_id] = current_user.id if current_user.user?
+        create_param[:manager_id] = current_user.id if current_user.manager?
+        @issue = Issue.create!(create_param)
       end
 
       def update
@@ -61,6 +64,7 @@ module Api
             )
           raise CanCan::AccessDenied, "You are not authorised to update #{field}"
         end
+
         attributes
       end
 
